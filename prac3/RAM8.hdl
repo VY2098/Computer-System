@@ -18,14 +18,14 @@ CHIP RAM8 {
     // Put your code here:
     DMux8Way(in = load, sel = address,
              a = oa, b = ob, c = oc, d = od,
-             e = oe, f = af, g = og, h = oh);
+             e = oe, f = of, g = og, h = oh);
 
     Register(in = in, load = oa, out = o0);
     Register(in = in, load = ob, out = o1);
     Register(in = in, load = oc, out = o2);
     Register(in = in, load = od, out = o3);
     Register(in = in, load = oe, out = o4);
-    Register(in = in, load = af, out = o5);
+    Register(in = in, load = of, out = o5);
     Register(in = in, load = og, out = o6);
     Register(in = in, load = oh, out = o7);
 
