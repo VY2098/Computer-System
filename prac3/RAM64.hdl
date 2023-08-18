@@ -12,7 +12,7 @@
 
 CHIP RAM64 {
     IN in[16], load, address[6];
-    OUT address=address[0..2], out[16];
+    OUT out[16];
 
     PARTS:
     // Put your code here:
