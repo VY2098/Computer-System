@@ -40,40 +40,55 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
-    // instrcution type
-    And(a=instruction[15], b=true, out=ins15);          // ins15指令标志位
-    Not(in=instruction[15], out=ins15Not);       // ins15Not:指令标志位取反
+    // instruction type
+    Not(in = instruction[15], out = isA);
+    Not(in = isA, out = isC);
 
-    // A instrcution, A Register
-    Mux16(a=instruction, b=ALUOut, sel=instruction[5], out=ARSel);
-    Mux16(a=instruction, b=ARSel, sel=ins15, out=ARIn);
-    Or(a=ins15Not, b=instruction[5], out=ARLoad);
-    ARegister(in=ARIn, load=ARLoad, out=AROut);
+    // C instruction, A register
+    And(a = isC, b = instruction[5], out = isLoadAluOut);
+    Mux16(a = instruction, b = outALU, sel = isLoadAluOut, out = inAR);
 
-    // D Register
-    And(a=ins15, b=instruction[4], out=DRLoad);
-    DRegister(in=ALUOut, load=DRLoad, out=DROut);
+    // A instruction, A register
+    Or(a = isA, b = instruction[5], out = isLoadAR);
+    ARegister(in = inAR, load = isLoadAR, out = outAR, out[0..14] = addressM);
 
-    // C instruction type
-    Mux16(a=AROut, b=inM, sel=instruction[12], out=AMOut);
+    // A register or inM
+    Mux16(a = outAR, b = inM, sel = instruction[12], out = outAM);
 
-    // ALU
-    ALU(x=DROut, y=AMOut, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUOut, zr=ALUzr, ng=ALUng);
+    // C instruction, M register
+    And(a = isC, b = instruction[3], out = writeM);
 
-    // outM & writeM & addressM
-    And16(a=true, b=ALUOut, out=outM);
-    And(a=ins15, b=instruction[3], out=writeM);
-    And16(a=true, b=AROut, out[0..14]=addressM[0..14]);
+    // C instruction, D register
+    And(a = instruction[4], b = isC, out = isLoadDR); 
+    DRegister(in = outALU, load = isLoadDR, out = outDR);
+
+
+    And(a = isC, b = instruction[6], out = no);
+    And(a = isC, b = instruction[7], out = f);
+    And(a = isC, b = instruction[8], out = ny);
+    And(a = isC, b = instruction[9], out = zy);
+    And(a = isC, b = instruction[10], out = nx);
+    And(a = isC, b = instruction[11], out = zx);
+
+    ALU(x = outDR, y = outAM, zx = zx, nx = nx, zy = zy, ny = ny, f = f, no = no, out = outALU, out = outM, zr=zr, ng=ng);
 
     // jump
-    And(a=ALUng, b=instruction[2], out=j1Out);
-    And(a=ALUzr, b=instruction[1], out=j2Out);
-    Or(a=ALUng, b=ALUzr, out=po);
-    Not(in=po, out=ALUpo);
-    And(a=ALUpo, b=instruction[0], out=j3Out);
-    Or8Way(in[0]=j1Out, in[1]=j2Out, in[2]=j3Out, in[3..7]=false, out=jump);
-    And(a=ins15, b=jump, out=jumpOut);
+    And(a = isC, b = instruction[0], out = isGT);
+    And(a = isC, b = instruction[1], out = isEQ);
+    And(a = isC, b = instruction[2], out = isLT);
 
-    // PC
-    PC(in=AROut, load=jumpOut, inc=true, reset=reset, out[0..14]=pc[0..14]);
+    And(a = ng, b = isLT, out = isLtJump);
+    And(a = zr, b = isEQ, out = isEqJump);
+
+    // 输出是否大于0
+    Not(in = ng, out = notNg);
+    Not(in = zr, out = notZr);
+    And(a = notNg, b = notZr, out = isOutGt);
+    
+    And(a = isOutGt, b = isGT, out = isGtJump);
+
+    Or(a = isLtJump, b = isEqJump, out = isJump);
+    Or(a = isJump, b = isGtJump, out = jump);
+
+    PC(in = outAR, load = jump, inc = true, reset = reset, out[0..14] = pc);
 }
