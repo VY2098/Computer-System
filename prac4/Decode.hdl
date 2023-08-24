@@ -28,15 +28,17 @@ PARTS:
     // Put your code here:
     And (a=in[15], b=in[15], out=type);
 
-    And (a=in[12], b=in[15], out=a);
+    Not (in=in[15], out=insa);
+    And (a=in[15], b=in[5], out=insc);
+    Or (a=insa, b=insc, out=d1);
 
+    And (a=in[12], b=in[15], out=a);
     And (a=in[15], b=in[11], out=c1);
     And (a=in[15], b=in[10], out=c2);
     And (a=in[15], b=in[9], out=c3);
     And (a=in[15], b=in[8], out=c4);
     And (a=in[15], b=in[7], out=c5);
     And (a=in[15], b=in[6], out=c6);
-    And (a=in[15], b=in[5], out=d1);
     And (a=in[15], b=in[4], out=d2);
     And (a=in[15], b=in[3], out=d3);
     And (a=in[15], b=in[2], out=j1);
