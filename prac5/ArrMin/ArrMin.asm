@@ -8,22 +8,11 @@ D=M
 @0
 M=D
 
-@2
-D=M
-@END
-D-1;JLE
-
 (LOOP)
 @2
-D=M
-M=M-1
+MD=M-1
 @END
-D-1;JEQ
-
-@0
-D=M
-@NEG2
-D;JLT
+D-1;JLE
 
 @1
 AM=M+1
@@ -31,6 +20,15 @@ D=M
 @NEG1
 D;JLT
 
+@0
+D=M
+@NEG2
+D;JLT
+
+(COMPARE)
+@1
+A=M
+D=M
 @0
 D=D-M
 @SWAP
@@ -55,18 +53,16 @@ M=D
 D=M
 @SWAP
 D;JGE
+@COMPARE
+0;JMP
 
 (NEG2)
 @1
-AM=M+1
+A=M
 D=M
 @LOOP
 D;JGE
-@0
-D=D-M
-@SWAP
-D;JLT
-@LOOP
+@COMPARE
 0;JMP
 
 (END)
