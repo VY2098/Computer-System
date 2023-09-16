@@ -58,10 +58,16 @@ D;JGE
 
 (NEG2)
 @1
-A=M
+AM=M+1
 D=M
 @LOOP
 D;JGE
+@0
+D=D-M
+@SWAP
+D;JLT
+@LOOP
+0;JMP
 
 (END)
 @END
