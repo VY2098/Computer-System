@@ -7,12 +7,8 @@ D=M
 
 @POS
 D;JGE
-
-@1
-M=-M
+D=-D
 
 (POS)
-@1
-D=M
 @0
 M=D
