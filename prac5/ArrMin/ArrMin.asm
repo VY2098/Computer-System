@@ -20,16 +20,17 @@ M=M-1
 @END
 D-1;JEQ
 
+@0
+D=M
+@NEG2
+D;JLT
+
 @1
 AM=M+1
 D=M
 @NEG1
 D;JLT
 
-@0
-D=M
-@NEG2
-D;JLT
 @0
 D=D-M
 @SWAP
