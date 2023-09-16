@@ -23,17 +23,23 @@ D-1;JEQ
 @1
 AM=M+1
 D=M
+@NEG1
+D;JLT
 
 @0
+D=M
+@NEG2
+D;JLT
+@0
 D=D-M
-@MIN
+@SWAP
 D;JLT
 
 @LOOP
 0;JMP
 
 
-(MIN)
+(SWAP)
 @1
 A=M
 D=M
@@ -42,6 +48,19 @@ M=D
 
 @LOOP
 0;JMP
+
+(NEG1)
+@0
+D=M
+@SWAP
+D;JGE
+
+(NEG2)
+@1
+A=M
+D=M
+@LOOP
+D;JGE
 
 (END)
 @END
