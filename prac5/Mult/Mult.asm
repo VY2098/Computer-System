@@ -7,7 +7,7 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
-@2
+@1
 D=M
 @NEG
 D;JLT
@@ -23,7 +23,7 @@ D=M
 @END
 D;JEQ
 
-@1
+@2
 D=M
 @0
 M=D+M
