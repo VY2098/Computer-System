@@ -3,6 +3,7 @@
 
 // Put your code here.
 @1
+A=M
 D=M
 @0
 M=D
@@ -10,15 +11,17 @@ M=D
 @2
 D=M
 @END
-D;JEQ
-
-@1
-D=A+1
-@1
-M=D
+D-1;JEQ
 
 (LOOP)
+@2
+D=M
+M=M-1
+@END
+D-1;JEQ
+
 @1
+AM=M+1
 D=M
 
 @0
@@ -26,29 +29,20 @@ D=D-M
 @MIN
 D;JLT
 
-@1
-M=M+1
-
-@2
-M=M-1
-D=M
 @LOOP
-D;JGT
-
-@END
 0;JMP
+
 
 (MIN)
 @1
+A=M
 D=M
 @0
 M=D
-@1
-M=M+1
-@2
-M=M-1
-D=M
+
 @LOOP
-D;JGT
+0;JMP
 
 (END)
+@END
+0;JMP
