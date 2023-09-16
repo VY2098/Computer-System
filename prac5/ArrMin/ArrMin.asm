@@ -14,7 +14,7 @@ M=D
 @2
 D=M
 @END
-D-1;JEQ
+D-1;JLE
 
 (LOOP)
 @2
