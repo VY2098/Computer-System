@@ -10,6 +10,3 @@ push static 0
 neg
 add
 pop static 0
-
-label END
-goto END
