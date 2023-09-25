@@ -4,39 +4,83 @@
 
 // Put your code here.
 push constant 0
+pop local 5
+push constant 0
 pop local 0
+push static 0
+push constant 0
+lt
+if-goto NEG0
+push static 0
+pop local 3
 push static 1
 push constant 0
 lt
-if-goto NEG
+if-goto NEG1
 push static 1
-pop local 3
-push static 0
 pop local 4
+
+label INIT
+push local 3
+push local 4
+lt
+if-goto COUNTER
+push local 3
+pop local 6
+push local 4
+pop local 7
 
 label LOOP
 push constant 0
-push local 3
+push local 7
 eq
-if-goto END
+if-goto POS
 push local 0
-push local 4
+push local 6
 add
 pop local 0
-push local 3
+push local 7
 push constant 1
 sub
-pop local 3
+pop local 7
 goto LOOP
 
 label END
 goto END
 
-label NEG
-push static 1
-neg
-pop local 3
+label NEG0
 push static 0
 neg
+pop local 3
+push local 5
+push constant 1
+add
+pop local 5
+goto INIT
+
+label NEG1
+push static 1
+neg
 pop local 4
+push local 5
+push constant 1
+sub
+pop local 5
+goto INIT
+
+label COUNTER
+push local 3
+pop local 7
+push local 4
+pop local 6
 goto LOOP
+
+label POS
+push local 5
+push constant 0
+eq
+if-goto END
+push local 0
+neg
+pop local 0
+goto END
