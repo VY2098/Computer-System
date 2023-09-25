@@ -60,6 +60,8 @@ push static 1
 push constant 0
 lt
 if-goto NEG1
+push static 1
+pop local 4
 goto INIT
 
 label NEG1
