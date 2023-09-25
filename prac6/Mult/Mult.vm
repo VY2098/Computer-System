@@ -6,7 +6,13 @@
 push constant 0
 pop local 0
 push static 1
+push constant 0
+lt
+if-goto NEG
+push static 1
 pop local 3
+push static 0
+pop local 4
 
 label LOOP
 push constant 0
@@ -14,7 +20,7 @@ push local 3
 eq
 if-goto END
 push local 0
-push static 0
+push local 4
 add
 pop local 0
 push local 3
@@ -25,3 +31,12 @@ goto LOOP
 
 label END
 goto END
+
+label NEG
+push static 1
+neg
+pop local 3
+push static 0
+neg
+pop local 4
+goto LOOP
