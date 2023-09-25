@@ -7,9 +7,5 @@ push local 0
 push local 1
 add
 push static 0
-neg
-add
+sub
 pop static 0
-
-label END
-goto END
