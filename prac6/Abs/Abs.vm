@@ -6,6 +6,7 @@ push static 0
 push constant 0
 lt
 if-goto NEGTIVE
+push static 0
 pop static 1
 goto END
 
