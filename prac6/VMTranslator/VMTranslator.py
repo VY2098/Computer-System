@@ -108,7 +108,11 @@ class VMTranslator:
 
     def vm_neg():
         '''Generate Hack Assembly code for a VM neg operation'''
-        return ""
+        return '''
+        @SP
+        A=M
+        M=-M
+        '''
 
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
