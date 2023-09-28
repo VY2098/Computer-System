@@ -130,6 +130,8 @@ class VMTranslator:
         @SP
         A=M-1
         M=0
+        @END
+        0;JMP
         (EQUAL)
         @SP
         A=M-1
@@ -149,6 +151,8 @@ class VMTranslator:
         @SP
         A=M-1
         M=0
+        @END
+        0;JMP
         (GREATER)
         @SP
         A=M-1
@@ -168,6 +172,8 @@ class VMTranslator:
         @SP
         A=M-1
         M=0
+        @END
+        0;JMP
         (LESS)
         @SP
         A=M-1
