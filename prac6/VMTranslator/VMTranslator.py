@@ -1,5 +1,7 @@
 class VMTranslator:
-
+    CALL_COUNT = 0
+    LOGIC_COUNT = 0
+    
     def vm_push(segment, offset):
         '''Generate Hack Assembly code for a VM push operation'''
         
@@ -150,6 +152,8 @@ class VMTranslator:
 
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
+        global LOGIC_COUNT
+        LOGIC_COUNT += 1
         return '''
         @SP
         AM=M-1
@@ -157,14 +161,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue0
+        @labelTrue_{LOGIC_COUNT}
         D;JEQ
         D=0
-        @labelFalse0
+        @labelFalse_{LOGIC_COUNT}
         0;JMP
-        (labelTrue0)
+        (labelTrue_{LOGIC_COUNT})
         D=-1
-        (labelFalse0)
+        (labelFalse_{LOGIC_COUNT})
         @SP
         A=M
         M=D
@@ -174,6 +178,8 @@ class VMTranslator:
 
     def vm_gt():
         '''Generate Hack Assembly code for a VM gt operation'''
+        global LOGIC_COUNT
+        LOGIC_COUNT += 1
         return '''
         @SP
         AM=M-1
@@ -181,14 +187,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue1
+        @labelTrue_{LOGIC_COUNT}
         D;JGT
         D=0
-        @labelFalse1
+        @labelFalse_{LOGIC_COUNT}
         0;JMP
-        (labelTrue1)
+        (labelTrue_{LOGIC_COUNT})
         D=-1
-        (labelFalse1)
+        (labelFalse_{LOGIC_COUNT})
         @SP
         A=M
         M=D
@@ -198,6 +204,8 @@ class VMTranslator:
 
     def vm_lt():
         '''Generate Hack Assembly code for a VM lt operation'''
+        global LOGIC_COUNT
+        LOGIC_COUNT += 1
         return '''
         @SP
         AM=M-1
@@ -205,14 +213,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue2
+        @labelTrue_{LOGIC_COUNT}
         D;JLT
         D=0
-        @labelFalse2
+        @labelFalse_{LOGIC_COUNT}
         0;JMP
-        (labelTrue2)
+        (labelTrue_{LOGIC_COUNT})
         D=-1
-        (labelFalse2)
+        (labelFalse_{LOGIC_COUNT})
         @SP
         A=M
         M=D
