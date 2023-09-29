@@ -81,12 +81,12 @@ class VMTranslator:
             '''
         
         elif segment == "static":
-            file_name = "Filename"
+            address = 16
             return f'''
             @SP
             AM=M-1
             D=M
-            @{file_name}.{offset}
+            @{address + offset}
             M=D
             '''
 
@@ -137,19 +137,21 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M
-        A=A-1
-        M=M-D
-        @EQUAL
+        @SP
+        AM=M-1
+        D=M-D
+        @labelTrue0
         D;JEQ
-        @SP
-        A=M-1
-        M=0
-        @END
+        @labelFalse0
         0;JMP
-        (EQUAL)
+        (labelTrue0)
+        D=-1
+        (labelFalse0)
         @SP
-        A=M-1
-        M=-1
+        A=M
+        M=D
+        @SP
+        M=M+1
         '''
 
     def vm_gt():
@@ -158,19 +160,21 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M
-        A=A-1
-        M=M-D
-        @GREATER
+        @SP
+        AM=M-1
+        D=M-D
+        @labelTrue1
         D;JGT
-        @SP
-        A=M-1
-        M=0
-        @END
+        @labelFalse1
         0;JMP
-        (GREATER)
+        (labelTrue1)
+        D=-1
+        (labelFalse1)
         @SP
-        A=M-1
-        M=-1
+        A=M
+        M=D
+        @SP
+        M=M+1
         '''
 
     def vm_lt():
@@ -179,19 +183,21 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M
-        A=A-1
-        M=M-D
-        @LESS
+        @SP
+        AM=M-1
+        D=M-D
+        @labelTrue2
         D;JLT
-        @SP
-        A=M-1
-        M=0
-        @END
+        @labelFalse2
         0;JMP
-        (LESS)
+        (labelTrue2)
+        D=-1
+        (labelFalse2)
         @SP
-        A=M-1
-        M=-1
+        A=M
+        M=D
+        @SP
+        M=M+1
         '''
 
     def vm_and():
