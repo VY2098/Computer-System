@@ -151,7 +151,6 @@ class VMTranslator:
     
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
-        global LOGIC_COUNT
         LOGIC_COUNT += 1
         return f'''
         @SP
@@ -177,7 +176,6 @@ class VMTranslator:
 
     def vm_gt():
         '''Generate Hack Assembly code for a VM gt operation'''
-        global LOGIC_COUNT
         LOGIC_COUNT += 1
         return f'''
         @SP
@@ -203,7 +201,6 @@ class VMTranslator:
 
     def vm_lt():
         '''Generate Hack Assembly code for a VM lt operation'''
-        global LOGIC_COUNT
         LOGIC_COUNT += 1
         return f'''
         @SP
@@ -290,7 +287,6 @@ class VMTranslator:
     
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
-        global CALL_COUNT
         CALL_COUNT += 1    
         return f'''
         @RETURN_ADDRESS_{CALL_COUNT}
