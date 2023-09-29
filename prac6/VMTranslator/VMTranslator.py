@@ -1,6 +1,3 @@
-global CALL_COUNT = 0
-global LOGIC_COUNT = 0
-
 class VMTranslator:
     def vm_push(segment, offset):
         '''Generate Hack Assembly code for a VM push operation'''
@@ -149,7 +146,9 @@ class VMTranslator:
         A=M-1
         M=-M
         '''
-
+   
+    LOGIC_COUNT = 0
+    
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
         global LOGIC_COUNT
@@ -286,7 +285,9 @@ class VMTranslator:
         ({function_name})
         {init}
         '''
-
+    
+    CALL_COUNT = 0
+    
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
         global CALL_COUNT
