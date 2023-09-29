@@ -142,6 +142,7 @@ class VMTranslator:
         D=M-D
         @labelTrue0
         D;JEQ
+        D=0
         @labelFalse0
         0;JMP
         (labelTrue0)
@@ -165,6 +166,7 @@ class VMTranslator:
         D=M-D
         @labelTrue1
         D;JGT
+        D=0
         @labelFalse1
         0;JMP
         (labelTrue1)
@@ -188,6 +190,7 @@ class VMTranslator:
         D=M-D
         @labelTrue2
         D;JLT
+        D=0
         @labelFalse2
         0;JMP
         (labelTrue2)
