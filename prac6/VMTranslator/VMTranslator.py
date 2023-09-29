@@ -93,13 +93,17 @@ class VMTranslator:
         elif segment in SEGMENT_MAP:
             pointer = SEGMENT_MAP[segment]
             return f'''
+            @{offset}
+            D=A
+            @{pointer}
+            D=M+D
+            @R13
+            M=D
             @SP
             AM=M-1
             D=M
-            @{offset}
-            D=A+D
-            @{pointer}
-            A=M+D
+            @R13
+            A=M
             M=D
             '''
 
@@ -256,15 +260,37 @@ class VMTranslator:
 
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
-        return ""
+        init = "\n".join(["@SP\nA=M\nM=0\n@SP\nM=M+1\n" for _ in range(int(n_vars))])
+        return f'''
+        ({function_name})  // Label for function entry
+        {init}   // Initialize local variables to 0
+        '''
 
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
-        return ""
+        global CALL_COUNT
+        CALL_COUNT += 1    
+        return f'''
+        @RETURN_ADDRESS_{CALL_COUNT} // Generate return address label
+        D=A
+        @SP                         // Push return address
+        A=M
+        M=D
+        @SP
+        M=M+1
+        // ... Additional code to save the stack frame and push arguments ...
+        @{function_name}            // Jump to the function
+        0;JMP
+        (RETURN_ADDRESS_{CALL_COUNT}) // Label for the return address
+        '''
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
-        return ""
+        return '''
+        @RETURN_ADDRESS
+        A=M
+        0;JMP
+        '''
 
 # A quick-and-dirty parser when run as a standalone script.
 if __name__ == "__main__":
