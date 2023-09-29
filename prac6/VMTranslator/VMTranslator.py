@@ -27,9 +27,23 @@ class VMTranslator:
             '''
         
         elif segment == "static":
-            file_name = "Filename"
+            address = 16
             return f'''
-            @{file_name}.{offset}
+            @{address + offset}
+            D=M
+            @SP
+            AM=M+1
+            A=A-1
+            M=D
+            '''
+
+        elif segment == "pointer":
+            if offset == 0:
+                pointer = "THIS"
+            elif offset == 1:
+                pointer = "THAT"
+            return f'''
+            @{pointer}
             D=M
             @SP
             AM=M+1
