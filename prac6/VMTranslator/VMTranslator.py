@@ -260,10 +260,10 @@ class VMTranslator:
 
     def vm_function(function_name, n_vars):
         '''Generate Hack Assembly code for a VM function operation'''
-        init = "\n".join(["@SP\nA=M\nM=0\n@SP\nM=M+1\n" for _ in range(int(n_vars))])
+        init = "\n".join(["@SP\nAM=M+1\nA=A-1\nM=0\n" for _ in range(int(n_vars))])
         return f'''
-        ({function_name})  // Label for function entry
-        {init}   // Initialize local variables to 0
+        ({function_name})
+        {init}
         '''
 
     def vm_call(function_name, n_args):
@@ -271,23 +271,117 @@ class VMTranslator:
         global CALL_COUNT
         CALL_COUNT += 1    
         return f'''
-        @RETURN_ADDRESS_{CALL_COUNT} // Generate return address label
+        @RETURN_ADDRESS_{CALL_COUNT}
         D=A
-        @SP                         // Push return address
-        A=M
-        M=D
         @SP
-        M=M+1
-        // ... Additional code to save the stack frame and push arguments ...
-        @{function_name}            // Jump to the function
+        AM=M+1
+        A=A-1
+        M=D
+        
+        @LCL
+        D=M
+        @SP
+        AM=M+1
+        A=A-1
+        M=D
+
+        @ARG
+        D=M
+        @SP
+        AM=M+1
+        A=A-1
+        M=D
+
+        @THIS
+        D=M
+        @SP
+        AM=M+1
+        A=A-1
+        M=D
+
+        @THAT
+        D=M
+        @SP
+        AM=M+1
+        A=A-1
+        M=D
+
+        @SP
+        D=M
+        @{5 + n_args}
+        D=D-A
+        @ARG
+        M=D
+
+        @SP
+        D=M
+        @LCL
+        M=D
+
+        @{function_name}
         0;JMP
-        (RETURN_ADDRESS_{CALL_COUNT}) // Label for the return address
+        (RETURN_ADDRESS_{CALL_COUNT})
         '''
 
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
         return '''
-        @RETURN_ADDRESS
+        @LCL
+        D=M
+        @R11
+        M=D
+        
+        @5
+        A=D-A
+        D=M
+        @R12
+        M=D
+        
+        @ARG
+        D=M
+        @R13
+        M=D
+        @SP
+        AM=M-1
+        D=M
+        @R13
+        A=M
+        M=D
+        
+        @ARG
+        D=M
+        @SP
+        M=D+1
+       
+        @R11
+        D=M-1
+        AM=D
+        D=M
+        @LCL
+        M=D
+        
+        @R11
+        D=M-1
+        AM=D
+        D=M
+        @ARG
+        M=D
+        
+        @R11
+        D=M-1
+        AM=D
+        D=M
+        @THIS
+        M=D
+        
+        @R11
+        D=M-1
+        AM=D
+        D=M
+        @THAT
+        M=D
+
+        @R12
         A=M
         0;JMP
         '''
