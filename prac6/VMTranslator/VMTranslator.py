@@ -90,6 +90,19 @@ class VMTranslator:
             M=D
             '''
 
+        elif segment == "pointer":
+            if offset == 0:
+                pointer = "THIS"
+            elif offset == 1:
+                pointer = "THAT"
+            return f'''
+            @SP
+            AM=M-1
+            D=M
+            @{pointer}
+            M=D
+            '''
+        
         elif segment in SEGMENT_MAP:
             pointer = SEGMENT_MAP[segment]
             return f'''
