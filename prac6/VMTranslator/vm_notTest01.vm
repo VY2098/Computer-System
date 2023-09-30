@@ -1,0 +1,4 @@
+// A simple example VM Translator test case
+push constant 1
+not
+pop static 0
