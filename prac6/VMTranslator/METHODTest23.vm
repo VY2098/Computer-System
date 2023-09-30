@@ -1,0 +1,6 @@
+// A simple example VM Translator test case
+function Add.add 2
+push argument 0
+push argument 1
+add
+return
