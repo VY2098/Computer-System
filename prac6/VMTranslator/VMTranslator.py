@@ -344,62 +344,50 @@ class VMTranslator:
     def vm_return():
         '''Generate Hack Assembly code for a VM return operation'''
         return '''
-        @LCL
-        D=M
-        @R11
-        M=D
-        
         @5
-        A=D-A
+        D=A
+        @LCL
+        A=M-D
         D=M
-        @R12
+        @R15
         M=D
-        
-        @ARG
-        D=M
-        @R13
-        M=D
+
         @SP
         AM=M-1
         D=M
-        @R13
+        @ARG
         A=M
         M=D
-        
-        @ARG
-        D=M
+
+        D=A+1
         @SP
-        M=D+1
-       
-        @R11
-        D=M-1
-        AM=D
-        D=M
+        M=D
+
         @LCL
-        M=D
-        
-        @R11
-        D=M-1
-        AM=D
-        D=M
-        @ARG
-        M=D
-        
-        @R11
-        D=M-1
-        AM=D
-        D=M
-        @THIS
-        M=D
-        
-        @R11
-        D=M-1
-        AM=D
+        AM=M-1
         D=M
         @THAT
         M=D
 
-        @R12
+        @LCL
+        AM=M-1
+        D=M
+        @THIS
+        M=D
+
+        @LCL
+        AM=M-1
+        D=M
+        @ARG
+        M=D
+
+        @LCL
+        AM=M-1
+        D=M
+        @LCL
+        M=D
+
+        @R15
         A=M
         0;JMP
         '''
