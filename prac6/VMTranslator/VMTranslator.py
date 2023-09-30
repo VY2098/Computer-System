@@ -146,12 +146,12 @@ class VMTranslator:
         A=M-1
         M=-M
         '''
-   
-    LOGIC_COUNT = 0
+
+    logic_counter = 0
     
     def vm_eq():
         '''Generate Hack Assembly code for a VM eq operation'''
-        LOGIC_COUNT += 1
+        VMTranslator.logic_counter += 1
         return f'''
         @SP
         AM=M-1
@@ -159,14 +159,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue_{LOGIC_COUNT}
+        @labelTrue_{VMTranslator.logic_counter}
         D;JEQ
         D=0
-        @labelFalse_{LOGIC_COUNT}
+        @labelFalse_{VMTranslator.logic_counter}
         0;JMP
-        (labelTrue_{LOGIC_COUNT})
+        (labelTrue_{VMTranslator.logic_counter)
         D=-1
-        (labelFalse_{LOGIC_COUNT})
+        (labelFalse_{VMTranslator.logic_counter)
         @SP
         A=M
         M=D
@@ -176,7 +176,7 @@ class VMTranslator:
 
     def vm_gt():
         '''Generate Hack Assembly code for a VM gt operation'''
-        LOGIC_COUNT += 1
+        VMTranslator.logic_counter += 1
         return f'''
         @SP
         AM=M-1
@@ -184,14 +184,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue_{LOGIC_COUNT}
+        @labelTrue_{VMTranslator.logic_counter}
         D;JGT
         D=0
-        @labelFalse_{LOGIC_COUNT}
+        @labelFalse_{VMTranslator.logic_counter}
         0;JMP
-        (labelTrue_{LOGIC_COUNT})
+        (labelTrue_{VMTranslator.logic_counter)
         D=-1
-        (labelFalse_{LOGIC_COUNT})
+        (labelFalse_{VMTranslator.logic_counter)
         @SP
         A=M
         M=D
@@ -201,7 +201,7 @@ class VMTranslator:
 
     def vm_lt():
         '''Generate Hack Assembly code for a VM lt operation'''
-        LOGIC_COUNT += 1
+        VMTranslator.logic_counter += 1
         return f'''
         @SP
         AM=M-1
@@ -209,14 +209,14 @@ class VMTranslator:
         @SP
         AM=M-1
         D=M-D
-        @labelTrue_{LOGIC_COUNT}
+        @labelTrue_{logic_counter}
         D;JLT
         D=0
-        @labelFalse_{LOGIC_COUNT}
+        @labelFalse_{logic_counter}
         0;JMP
-        (labelTrue_{LOGIC_COUNT})
+        (labelTrue_{logic_counter})
         D=-1
-        (labelFalse_{LOGIC_COUNT})
+        (labelFalse_{logic_counter})
         @SP
         A=M
         M=D
@@ -282,14 +282,14 @@ class VMTranslator:
         ({function_name})
         {init}
         '''
-    
-    CALL_COUNT = 0
+
+    call_counter = 0
     
     def vm_call(function_name, n_args):
         '''Generate Hack Assembly code for a VM call operation'''
-        CALL_COUNT += 1    
+        VMTranbslator.call_counter += 1    
         return f'''
-        @RETURN_ADDRESS_{CALL_COUNT}
+        @RETURN_ADDRESS_{call_counter}
         D=A
         @SP
         AM=M+1
@@ -338,7 +338,7 @@ class VMTranslator:
 
         @{function_name}
         0;JMP
-        (RETURN_ADDRESS_{CALL_COUNT})
+        (RETURN_ADDRESS_{call_counter})
         '''
 
     def vm_return():
