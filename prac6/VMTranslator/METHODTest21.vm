@@ -1,5 +1,0 @@
-// A simple example VM Translator test case
-fuction Neg.neg 1
-push argument 0
-neg
-return
