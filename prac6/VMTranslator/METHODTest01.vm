@@ -1,4 +1,0 @@
-// A simple example VM Translator test case
-push local 0
-push static 0
-push pointer 0
