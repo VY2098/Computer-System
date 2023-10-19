@@ -41,8 +41,8 @@ class CompilerParser :
         while not self.have("symbol", "}"):
             if self.have("keyword", "static") or self.have("keyword", "field"):
                 class_tree.addChild(self.compileClassVarDec())
-            elif self.have("keyword", "constructor") or self.have("keyword", "function") or self.have("keyword", "method"):
-                class_tree.addChild(self.compileSubroutine())
+            #elif self.have("keyword", "constructor") or self.have("keyword", "function") or self.have("keyword", "method"):
+                #class_tree.addChild(self.compileSubroutine())
 
         class_tree.addChild(self.mustBe("symbol", "}"))
 
