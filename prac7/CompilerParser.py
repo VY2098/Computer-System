@@ -91,23 +91,16 @@ class CompilerParser :
         if self.have("symbol", ")"):
             return param_list_tree
 
-        param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue())
-        param_list_tree.addChild(param_type_token)
-
-        param_name_token = self.mustBe("identifier", self.current().getValue())
-        param_list_tree.addChild(param_name_token)
+        param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
+        param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
 
         while self.have("symbol", ","):
-            comma_token = self.mustBe("symbol", ",")
-            param_list_tree.addChild(comma_token)
+            param_list_tree.addChild(self.mustBe("symbol", ","))
+            param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
+            param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
 
-            param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue())
-            param_list_tree.addChild(param_type_token)
-
-            param_name_token = self.mustBe("identifier", self.current().getValue())
-            param_list_tree.addChild(param_name_token)
-
-        return param_list_tree 
+            if self.have("symbol", ")"):
+                return param_list_tree 
     
     
     def compileSubroutineBody(self):
@@ -123,7 +116,21 @@ class CompilerParser :
         Generates a parse tree for a variable declaration
         @return a ParseTree that represents a var declaration
         """
-        return None 
+        var_dec_tree = ParseTree("varDec", "")
+
+        var_dec_tree.addChild(self.mustBe("keyword", "var"))
+
+        var_dec_tree.addChild(self.mustBe("keyword", self.current().getValue()))
+
+        var_dec_tree.addChild(self.mustBe("identifier", self.current().getValue()))
+
+        while self.have("symbol", ","):
+            var_dec_tree.addChild(self.mustBe("symbol", ","))
+            var_dec_tree.addChild(self.mustBe("identifier", self.current().getValue()))
+
+        var_dec_tree.addChild(self.mustBe("symbol", ";"))
+
+        return var_dec_tree 
     
 
     def compileStatements(self):
