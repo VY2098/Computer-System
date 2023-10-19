@@ -105,23 +105,22 @@ class CompilerParser :
         """
         param_list_tree = ParseTree("parameterList", "")
 
-        while not self.have("symbol", ")"):
+        if self.have("keyword", "int") or self.have("keyword", "char") or self.have("keyword", "boolean"):
+            param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
+        else:
+            param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
+
+        param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
+
+        while self.have("symbol", ","):
+            param_list_tree.addChild(self.mustBe("symbol", ","))
+
             if self.have("keyword", "int") or self.have("keyword", "char") or self.have("keyword", "boolean"):
                 param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
             else:
                 param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
 
             param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
-
-            while self.have("symbol", ","):
-                param_list_tree.addChild(self.mustBe("symbol", ","))
-
-                if self.have("keyword", "int") or self.have("keyword", "char") or self.have("keyword", "boolean"):
-                    param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
-                else:
-                    param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
-
-                param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
             
         return param_list_tree
     
