@@ -148,7 +148,7 @@ class CompilerParser :
             comma_token = self.mustBe("symbol", ",")
             param_list_tree.addChild(comma_token)
 
-            param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue()e)
+            param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue())
             param_list_tree.addChild(param_type_token)
 
             param_name_token = self.mustBe("identifier", self.current().getValue())
