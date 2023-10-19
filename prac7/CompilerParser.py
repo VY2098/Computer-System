@@ -26,7 +26,7 @@ class CompilerParser :
 
         if not self.have("identifier", None):
             raise ParseException("expected class name after 'class' keyword")
-        class_name_token = Token("identifier", self.current().value)
+        class_name_token = Token("identifier", self.current().getValue())
         program_tree.addChild(class_name_token)
         self.next() 
 
@@ -55,7 +55,7 @@ class CompilerParser :
         class_keyword = Token("keyword", "class")
         class_tree.addChild(class_keyword)
 
-        class_name_token = self.mustBe("identifier", self.current().value)
+        class_name_token = self.mustBe("identifier", self.current().getValue())
         class_tree.addChild(class_name_token)
 
         left_brace = self.mustBe("symbol", "{")
@@ -85,19 +85,19 @@ class CompilerParser :
         if not (self.have("keyword", "static") or self.have("keyword", "field")):
             raise ParseException("expected 'static' or 'field' for class variable declaration")
 
-        visibility = Token("keyword", self.current().value)
+        visibility = Token("keyword", self.current().getValue())
         class_var_dec_tree.addChild(visibility)
         self.next()
 
         if not self.have("keyword", None) and not self.have("identifier", None):
             raise ParseException("Expected type after 'static' or 'field'")
-        type_token = Token(self.current().type, self.current().value)
+        type_token = Token(self.current().getType(), self.current().getValue())
         class_var_dec_tree.addChild(type_token)
         self.next()
 
         if not self.have("identifier", None):
             raise ParseException("Expected variable name after type")
-        var_name_token = Token("identifier", self.current().value)
+        var_name_token = Token("identifier", self.current().getValue())
         class_var_dec_tree.addChild(var_name_token)
         self.next()
 
@@ -108,7 +108,7 @@ class CompilerParser :
 
             if not self.have("identifier", None):
                 raise ParseException("Expected another variable name after ','")
-            var_name_token = Token("identifier", self.current().value)
+            var_name_token = Token("identifier", self.current().getValue())
             class_var_dec_tree.addChild(var_name_token)
             self.next()
 
@@ -138,20 +138,20 @@ class CompilerParser :
         if self.have("symbol", ")"):
             return param_list_tree
 
-        param_type_token = self.mustBe(["keyword", "identifier"], self.current().value)
+        param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue())
         param_list_tree.addChild(param_type_token)
 
-        param_name_token = self.mustBe("identifier", self.current().value)
+        param_name_token = self.mustBe("identifier", self.current().getValue())
         param_list_tree.addChild(param_name_token)
 
         while self.have("symbol", ","):
             comma_token = self.mustBe("symbol", ",")
             param_list_tree.addChild(comma_token)
 
-            param_type_token = self.mustBe(["keyword", "identifier"], self.current().value)
+            param_type_token = self.mustBe(["keyword", "identifier"], self.current().getValue()e)
             param_list_tree.addChild(param_type_token)
 
-            param_name_token = self.mustBe("identifier", self.current().value)
+            param_name_token = self.mustBe("identifier", self.current().getValue())
             param_list_tree.addChild(param_name_token)
 
         return param_list_tree 
