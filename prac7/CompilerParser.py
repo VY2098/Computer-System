@@ -267,7 +267,7 @@ class CompilerParser :
         @return True if a match, False otherwise
         """
         token = self.current()
-        return token is not None and token.type == expectedType and token.value == expectedValue
+        return token is not None and token.getType() == expectedType and token.getValue() == expectedValue
 
 
     def mustBe(self,expectedType,expectedValue):
@@ -278,7 +278,7 @@ class CompilerParser :
         """
         token = self.current()
         if not self.have(expectedType, expectedValue):
-            raise ParseException(f"Expected {expectedType} '{expectedValue}', but found {token.type} '{token.value}'")
+            raise ParseException(f"Expected {expectedType} '{expectedValue}', but found {token.getType()} '{token.getvalue()}'")
         self.next()
         return token
     
