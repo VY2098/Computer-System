@@ -231,7 +231,7 @@ class CompilerParser :
         """
         token = self.current()
         if not self.have(expectedType, expectedValue):
-            raise ParseException(f"Expected {expectedType} '{expectedValue}', but found {token.getType()} '{token.getvalue()}'")
+            raise ParseException(f"Expected {expectedType} '{expectedValue}', but found {token.getType()} '{token.getValue()}'")
         self.next()
         return token
     
