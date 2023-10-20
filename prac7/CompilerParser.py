@@ -352,7 +352,7 @@ class CompilerParser :
 
         # keyword constant
         elif self.current().getType() == "keyword" and self.current().getValue() in keyword:
-            term_tree.addChild(self.mustBe("keywordConstant", self.current().getValue()))
+            term_tree.addChild(self.mustBe("keyword", self.current().getValue()))
 
         # unary operation
         elif self.current().getType() == "symbol" and self.current().getValue() in u_op:
