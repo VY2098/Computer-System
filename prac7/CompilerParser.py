@@ -33,7 +33,7 @@ class CompilerParser :
         Generates a parse tree for a single class
         @return a ParseTree that represents a class
         """
-        cclass_tree = ParseTree("class", "")
+        class_tree = ParseTree("class", "")
         class_tree.addChild(self.mustBe("keyword", "class"))
         class_tree.addChild(self.mustBe("identifier", self.current().getValue()))
         class_tree.addChild(self.mustBe("symbol", "{"))
