@@ -340,7 +340,7 @@ class CompilerParser :
         """
         term_tree = ParseTree("term", "")
         u_op = ['-', '~']
-        op = ['+', '-', '*', '/', '&', '|', '<', '>', '=']
+        keyword = ["true", "false", "null", "this"]
 
         # integer constant
         if self.current().getType() == "integerConstant":
@@ -351,7 +351,7 @@ class CompilerParser :
             term_tree.addChild(self.mustBe("stringConstant", self.current().getValue()))
 
         # keyword constant
-        elif self.current().getType() == "keywordConstant":
+        elif self.current().getType() == "keyword" and self.current().getValue() in keyword:
             term_tree.addChild(self.mustBe("keywordConstant", self.current().getValue()))
 
         # unary operation
