@@ -266,7 +266,7 @@ class CompilerParser :
         Generates a parse tree for a while statement
         @return a ParseTree that represents the statement
         """
-        while_tree = ParseTree("whileStatements", "")
+        while_tree = ParseTree("whileStatement", "")
 
         while_tree.addChild(self.mustBe("keyword", "while"))
         while_tree.addChild(self.mustBe("symbol", "("))
@@ -289,7 +289,7 @@ class CompilerParser :
         Generates a parse tree for a do statement
         @return a ParseTree that represents the statement
         """
-        do_tree = ParseTree("doStatements", "")
+        do_tree = ParseTree("doStatement", "")
 
         do_tree.addChild(self.mustBe("keyword", "do"))
 
@@ -306,7 +306,7 @@ class CompilerParser :
         Generates a parse tree for a return statement
         @return a ParseTree that represents the statement
         """
-        return_tree = ParseTree("returnStatements", "")
+        return_tree = ParseTree("returnStatement", "")
 
         return_tree.addChild(self.mustBe("keyword", "return"))
 
