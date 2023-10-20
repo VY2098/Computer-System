@@ -111,10 +111,15 @@ class CompilerParser :
         """
         param_list_tree = ParseTree("parameterList", "")
 
+        if self.current() is None or self.have("symbol", ")"):
+            return param_list_tree
+
         if self.have("keyword", "int") or self.have("keyword", "char") or self.have("keyword", "boolean"):
             param_list_tree.addChild(self.mustBe("keyword", self.current().getValue()))
-        else:
+        elif self.have("identifier", self.current().getValue()):
             param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
+        else:
+            raise ParseException()
 
         param_list_tree.addChild(self.mustBe("identifier", self.current().getValue()))
 
